@@ -21,7 +21,14 @@ export default defineConfig(({ mode }) => {
             host: env.VITE_SERVER_HOST || "0.0.0.0",
             port: parseInt(env.VITE_SERVER_PORT || "5173"),
             strictPort: true,
-            allowedHosts: (env.VITE_ALLOWED_HOSTS || "").split(",").filter(Boolean),
+            hmr: {
+                clientPort: 443,
+            },
+        },
+        preview: {
+            host: "0.0.0.0",
+            port: 5173,
+            strictPort: true,
         },
     };
 });
