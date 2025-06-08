@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
             hmr: {
                 clientPort: 443,
             },
+            allowedHosts: ["localhost", "127.0.0.1", "watchhub-zs0q.onrender.com", ".onrender.com"],
         },
         preview: {
             host: "0.0.0.0",
