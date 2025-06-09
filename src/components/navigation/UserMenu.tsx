@@ -16,7 +16,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                                isDropdownOpen,
                                                toggleDropdown,
                                            }) => {
-    const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+    const { user, isAuthenticated, loginWithRedirect, logout, isLoading } = useAuth0();
+
+    console.log('Auth0 states:', { isLoading, isAuthenticated, user });
 
     const handleSignOut = () => {
         logout({ returnTo: window.location.origin });
@@ -27,15 +29,27 @@ const UserMenu: React.FC<UserMenuProps> = ({
         if (closeMenu) closeMenu();
     };
 
+    const handleSignIn = async () => {
+        try {
+            await loginWithRedirect();
+        } catch (error) {
+            console.error("Failed to log in:", error);
+            // You might want to show an error message to the user here
+        }
+    };
+
     if (!isAuthenticated) {
         return (
             <button
-                onClick={() => loginWithRedirect()}
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block mr-2 px-3 py-2 rounded-md text-base font-medium"
+                onClick={handleSignIn}
+                disabled={isLoading}
+                className={`text-gray-300 hover:bg-gray-700 hover:text-white block mr-2 px-3 py-2 rounded-md text-base font-medium ${
+                    isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
             >
                 <span className="flex items-center">
                     <MdAccountCircle className="mr-2" size={20} />
-                    Sign In
+                    {isLoading ? 'Loading...' : 'Sign In'}
                 </span>
             </button>
         );
