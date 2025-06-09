@@ -1,19 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
-    const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+    const { loginWithRedirect, isAuthenticated, isLoading, error, user } = useAuth0();
     const navigate = useNavigate();
+    const [localLoading, setLocalLoading] = useState(true);
 
-    React.useEffect(() => {
-        if (isAuthenticated) {
-            navigate("/");
+    useEffect(() => {
+        console.log("Auth0 states:", { isLoading, isAuthenticated, error, user });
+
+        const timer = setTimeout(() => {
+            setLocalLoading(false);
+            console.log("Local loading timeout reached");
+        }, 10000); // 10 seconds timeout
+
+        if (!isLoading) {
+            clearTimeout(timer);
+            setLocalLoading(false);
+            console.log("Auth0 loading completed");
+            if (isAuthenticated && user) {
+                console.log("User is authenticated, navigating to home");
+                navigate("/");
+            }
         }
-    }, [isAuthenticated, navigate]);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
+        return () => clearTimeout(timer);
+    }, [isLoading, isAuthenticated, navigate, error, user]);
+
+    if (localLoading || isLoading) {
+        return <div className="min-h-screen flex justify-center items-center">Loading... (Auth0 Loading: {isLoading.toString()})</div>;
+    }
+
+    if (error) {
+        return <div className="min-h-screen flex justify-center items-center">Error: {error.message}</div>;
     }
 
     return (
@@ -23,7 +43,10 @@ const LoginPage: React.FC = () => {
                     Login / Sign Up
                 </h1>
                 <button
-                    onClick={() => loginWithRedirect()}
+                    onClick={() => {
+                        console.log("Login button clicked");
+                        loginWithRedirect().catch(err => console.error("Login error:", err));
+                    }}
                     className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
                     Log In / Sign Up with Auth0

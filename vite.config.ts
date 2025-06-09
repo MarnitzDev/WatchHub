@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
             port: parseInt(env.VITE_SERVER_PORT || "5173"),
             strictPort: true,
             hmr: {
-                clientPort: 443,
+                clientPort: 5173,
             },
             allowedHosts: [
                 "localhost",
