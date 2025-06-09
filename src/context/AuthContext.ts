@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { User } from "@supabase/supabase-js";
+import { User } from "@auth0/auth0-react";
 
 export interface UserProfile {
     id: string;
@@ -14,6 +14,8 @@ export interface AuthContextType {
     userProfile: UserProfile | null;
     fetchUserProfile: () => Promise<void>;
     isAuthenticated: boolean;
+    loginWithRedirect: () => Promise<void>;
+    logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -22,4 +24,6 @@ export const AuthContext = createContext<AuthContextType>({
     userProfile: null,
     fetchUserProfile: async () => {},
     isAuthenticated: false,
+    loginWithRedirect: async () => {},
+    logout: () => {},
 });

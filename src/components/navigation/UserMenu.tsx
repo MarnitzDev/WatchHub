@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { MdAccountCircle, MdArrowDropDown, MdLogout } from "react-icons/md";
-import { useAuth } from "@/hooks/useAuth.ts";
-import { supabase } from "@/supabase/client.ts";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface UserMenuProps {
     isMobile?: boolean;
@@ -12,38 +11,33 @@ interface UserMenuProps {
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({
-    isMobile = false,
-    closeMenu,
-    isDropdownOpen,
-    toggleDropdown,
-}) => {
-    const { user } = useAuth();
+                                               isMobile = false,
+                                               closeMenu,
+                                               isDropdownOpen,
+                                               toggleDropdown,
+                                           }) => {
+    const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-    const handleSignOut = async () => {
-        try {
-            await supabase.auth.signOut();
-            if (closeMenu) closeMenu();
-        } catch (error) {
-            console.error("Error signing out:", error);
-        }
+    const handleSignOut = () => {
+        logout({ returnTo: window.location.origin });
+        if (closeMenu) closeMenu();
     };
 
     const handleLinkClick = () => {
         if (closeMenu) closeMenu();
     };
 
-    if (!user) {
+    if (!isAuthenticated) {
         return (
-            <Link
-                to="/login"
+            <button
+                onClick={() => loginWithRedirect()}
                 className="text-gray-300 hover:bg-gray-700 hover:text-white block mr-2 px-3 py-2 rounded-md text-base font-medium"
-                onClick={handleLinkClick}
             >
                 <span className="flex items-center">
                     <MdAccountCircle className="mr-2" size={20} />
                     Sign In
                 </span>
-            </Link>
+            </button>
         );
     }
 

@@ -1,21 +1,20 @@
 import { useEffect } from "react";
-import { supabase } from "@/supabase/client";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
 const AuthCallback = () => {
     const navigate = useNavigate();
+    const { isAuthenticated, isLoading } = useAuth0();
 
     useEffect(() => {
-        const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-            if (event === "SIGNED_IN" && session) {
-                navigate("/");
-            }
-        });
+        if (isAuthenticated && !isLoading) {
+            navigate("/");
+        }
+    }, [isAuthenticated, isLoading, navigate]);
 
-        return () => {
-            authListener.subscription.unsubscribe();
-        };
-    }, [navigate]);
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return <div>Processing authentication...</div>;
 };
