@@ -1,23 +1,44 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import * as React from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { Auth0Provider } from "@auth0/auth0-react";
+import Navbar from "@/components/navigation/Navbar.tsx";
+import AutoScrollToTop from "@/components/AutoScrollToTop.tsx";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
-interface ProtectedRouteProps {
-    children: React.ReactNode;
-}
+const Auth0ProviderWithNavigate = ({ children }: { children: React.ReactNode }) => {
+    const navigate = useNavigate();
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-    const { user, loading } = useAuth();
+    const onRedirectCallback = (appState: any) => {
+        navigate(appState?.returnTo || window.location.origin);
+    };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (!user) {
-        return <Navigate to="/login" replace />;
-    }
-
-    return <>{children}</>;
+    return (
+        <Auth0Provider
+            domain={import.meta.env.VITE_AUTH0_DOMAIN}
+            clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+            authorizationParams={{
+                redirect_uri: `${window.location.origin}/auth/callback`
+            }}
+            onRedirectCallback={onRedirectCallback}
+        >
+            {children}
+        </Auth0Provider>
+    );
 };
 
-export default ProtectedRoute;
+function App() {
+    return (
+        <Auth0ProviderWithNavigate>
+            <React.Fragment>
+                <Navbar />
+                <main className="mx-auto min-h-screen">
+                    <AutoScrollToTop />
+                    <Outlet />
+                </main>
+                <ScrollToTopButton />
+            </React.Fragment>
+        </Auth0ProviderWithNavigate>
+    );
+}
+
+export default App;

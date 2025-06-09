@@ -21,7 +21,14 @@ const UserMenu: React.FC<UserMenuProps> = ({
     console.log('Auth0 states:', { isLoading, isAuthenticated, user });
 
     const handleSignOut = () => {
-        logout({ returnTo: window.location.origin });
+        logout({
+            logoutParams: {
+                returnTo: window.location.origin
+            }
+        }).catch(error => {
+            console.error("Logout error:", error);
+            // You might want to show an error message to the user here
+        });
         if (closeMenu) closeMenu();
     };
 
