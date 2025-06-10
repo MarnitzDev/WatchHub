@@ -340,6 +340,22 @@ export const fetchTMDBSeriesDetails = async (seriesId: number) => {
     return fetchFromTMDB(`/tv/${seriesId}`);
 };
 
+export const fetchTMDBSeriesCredits = (seriesId: number) => {
+    return fetchFromTMDB(`/tv/${seriesId}/credits`);
+};
+
+export const fetchTMDBSeriesVideos = (seriesId: number) => {
+    return fetchFromTMDB(`/tv/${seriesId}/videos`);
+};
+
+export const fetchTMDBSeriesKeywords = (seriesId: number) => {
+    return fetchFromTMDB(`/tv/${seriesId}/keywords`);
+};
+
+export const fetchTMDBSeriesContentRatings = (seriesId: number) => {
+    return fetchFromTMDB(`/tv/${seriesId}/content_ratings`);
+};
+
 export const fetchSeriesDetails = async (seriesId: number) => {
     try {
         const [series] = await Promise.all([fetchFromTMDB(`/tv/${seriesId}`)]);

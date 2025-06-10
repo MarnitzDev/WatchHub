@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useFavourite } from "@/hooks/useFavourite";
 import { useWatched } from "@/hooks/useWatched";
-import { useSeriesDetails } from "@/hooks/series/useSeriesDetails";
+import { useSeriesDetails } from "@/hooks/useSeriesDetails";
 import SeriesDetailContent from "@/views/SeriesDetail/SeriesDetailContent";
-// import TopCast from "@/views/SeriesDetail/TopCast";
+import TopCast from "@/views/SeriesDetail/TopCast";
 // import AdditionalInfo from "@/views/SeriesDetail/AdditionalInfo";
 // import SeriesReviews from "@/components/SeriesReviews";
 // import RecommendedSeries from "@/components/RecommendedSeries";
@@ -23,7 +23,8 @@ const SeriesDetailPage: React.FC = () => {
 
     if (!seriesData) return <div>No series data available</div>;
 
-    const { series } = seriesData;
+    const { series, credits } = seriesData;
+    const topCast = credits.cast.slice(0, 18);
 
     const backdropPath = series.backdrop_path
         ? `https://image.tmdb.org/t/p/original${series.backdrop_path}`
@@ -61,9 +62,9 @@ const SeriesDetailPage: React.FC = () => {
                 <div className="flex flex-col md:flex-row">
                     {/* Left Side */}
                     <div className="md:w-2/3 md:pr-8">
-                        {/*<div className="mt-8">*/}
-                        {/*    <TopCast cast={topCast} seriesId={seriesId} />*/}
-                        {/*</div>*/}
+                        <div className="mt-8">
+                            <TopCast cast={topCast} seriesId={seriesId} />
+                        </div>
 
                         {/*<div className="mt-8">*/}
                         {/*    <h2 className="text-2xl font-bold mb-4">More Like This</h2>*/}
