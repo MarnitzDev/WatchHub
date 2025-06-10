@@ -1,33 +1,48 @@
-import React from "react";
+
+import React, { useCallback } from "react";
 import { useParams } from "react-router-dom";
+import { useSeriesDetails } from "@/hooks/useSeriesDetails";
 import { useAuth } from "@/hooks/useAuth";
 import { useFavourite } from "@/hooks/useFavourite";
 import { useWatched } from "@/hooks/useWatched";
-import { useSeriesDetails } from "@/hooks/useSeriesDetails";
-import SeriesDetailContent from "@/views/SeriesDetail/SeriesDetailContent";
+import RecommendedSeries from "@/views/SeriesDetail/RecommendedSeries";
 import TopCast from "@/views/SeriesDetail/TopCast";
+import SeriesDetailContent from "@/views/SeriesDetail/SeriesDetailContent";
 import AdditionalInfo from "@/views/SeriesDetail/AdditionalInfo";
-// import SeriesReviews from "@/components/SeriesReviews";
-// import RecommendedSeries from "@/components/RecommendedSeries";
 
 const SeriesDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const seriesId = parseInt(id as string, 10);
+    const seriesId = id ? parseInt(id, 10) : undefined;
     const { data: seriesData, isLoading, error } = useSeriesDetails({ seriesId });
-    const { isAuthenticated } = useAuth();
+    const { user } = useAuth();
     const { isFavourite, toggleFavourite } = useFavourite();
     const { isWatched, toggleWatched } = useWatched();
 
+    const handleToggleFavourite = useCallback(() => {
+        if (seriesData?.series) {
+            toggleFavourite(seriesData.series);
+        }
+    }, [toggleFavourite, seriesData?.series]);
+
+    const handleToggleWatched = useCallback(() => {
+        if (seriesData?.series) {
+            toggleWatched(seriesData.series);
+        }
+    }, [toggleWatched, seriesData?.series]);
+
     if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {(error as Error).message}</div>;
+    if (error || !seriesData) return <div>Error loading series details</div>;
 
-    if (!seriesData) return <div>No series data available</div>;
-
-    const { series, credits } = seriesData;
+    const { series, credits, videos } = seriesData;
+    const creators = series.created_by || [];
     const topCast = credits.cast.slice(0, 18);
+    const trailer = videos.find((video) => video.type === "Trailer");
 
     const backdropPath = series.backdrop_path
-        ? `https://image.tmdb.org/t/p/original${series.backdrop_path}`
+        ? `https://image.tmdb.org/t/p/w1280${series.backdrop_path}`
+        : null;
+    const lowQualityBackdropPath = series.backdrop_path
+        ? `https://image.tmdb.org/t/p/w300${series.backdrop_path}`
         : null;
     const posterSrc = series.poster_path
         ? `https://image.tmdb.org/t/p/w500${series.poster_path}`
@@ -36,26 +51,21 @@ const SeriesDetailPage: React.FC = () => {
         ? `https://image.tmdb.org/t/p/w92${series.poster_path}`
         : null;
 
-    const handleToggleFavourite = () => {
-        toggleFavourite(series);
-    };
-
-    const handleToggleWatched = () => {
-        toggleWatched(series);
-    };
-
     return (
-        <div className="min-h-screen bg-white dark:bg-gray-900">
+        <div>
             <SeriesDetailContent
                 series={series}
                 backdropPath={backdropPath}
+                lowQualityBackdropPath={lowQualityBackdropPath}
                 posterSrc={posterSrc}
                 lowQualityPosterSrc={lowQualityPosterSrc}
-                isAuthenticated={isAuthenticated}
+                creators={creators}
+                isAuthenticated={!!user}
                 isFavourite={isFavourite(series.id)}
-                isWatched={isWatched(series.id)}
                 handleToggleFavourite={handleToggleFavourite}
+                isWatched={isWatched(series.id)}
                 handleToggleWatched={handleToggleWatched}
+                trailerKey={trailer?.key}
             />
 
             <div className="max-w-screen-xl mx-auto p-4">
@@ -63,13 +73,13 @@ const SeriesDetailPage: React.FC = () => {
                     {/* Left Side */}
                     <div className="md:w-2/3 md:pr-8">
                         <div className="mt-8">
-                            <TopCast cast={topCast} seriesId={seriesId} />
+                            <TopCast cast={topCast} seriesId={series.id} />
                         </div>
 
-                        {/*<div className="mt-8">*/}
-                        {/*    <h2 className="text-2xl font-bold mb-4">More Like This</h2>*/}
-                        {/*    <RecommendedSeries seriesId={series.id} />*/}
-                        {/*</div>*/}
+                        <div className="mt-8">
+                            <h2 className="text-2xl font-bold mb-4">More Like This</h2>
+                            <RecommendedSeries seriesId={series.id} />
+                        </div>
 
                         {/*<div className="mt-8">*/}
                         {/*    <h2 className="text-2xl font-bold mb-4">User Reviews</h2>*/}
@@ -77,6 +87,7 @@ const SeriesDetailPage: React.FC = () => {
                         {/*</div>*/}
                     </div>
 
+                    {/* Right Side */}
                     <div className="md:w-1/3 mt-8">
                         <AdditionalInfo series={series} />
                     </div>

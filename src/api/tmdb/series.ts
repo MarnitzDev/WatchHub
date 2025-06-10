@@ -146,3 +146,17 @@ export const fetchSeriesDetails = async (seriesId: number) => {
         throw new Error("Failed to fetch series details");
     }
 };
+
+/**
+ * Fetches recommended TV series for a specific series from TMDB.
+ *
+ * @param seriesId - TMDB TV series ID.
+ * @param page - Page number (default: 1).
+ * @returns Promise resolving to recommended TV series.
+ */
+export const fetchTMDBRecommendedSeries = async (
+    seriesId: number,
+    page = 1
+): Promise<{ results: ISeries[] }> => {
+    return fetchFromTMDB(`/tv/${seriesId}/recommendations`, { page });
+};
