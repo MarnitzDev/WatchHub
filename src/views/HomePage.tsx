@@ -3,6 +3,7 @@ import { usePopularMovies } from "@/hooks/usePopularMovies.ts";
 import { useAuth } from "@/hooks/useAuth";
 import HeroBanner from "@/views/Home/HeroBanner";
 import FeaturedToday from "@/views/Home/FeaturedToday";
+import AdvancedSearchBanner from "@/views/Home/AdvancedSearchBanner";
 import AppHeader from "@/components/ui/AppHeader.tsx";
 import Footer from "@/components/navigation/Footer";
 
@@ -35,23 +36,16 @@ const HomePage = () => {
                 </section>
 
                 <section className="mb-12">
+                    <AdvancedSearchBanner />
+                </section>
+
+                <section className="mb-12">
                     <AppHeader title="Most Popular Celebrities" />
                     <Suspense fallback={<div>Loading...</div>}>
                         <LazyPopularCelebrities />
                     </Suspense>
                 </section>
 
-                {/* From Your Favourite Section */}
-                {user && (
-                    <section className="mb-12">
-                        <AppHeader title="From Your Favourites" />
-                        <Suspense fallback={<div>Loading...</div>}>
-                            <LazyFavoriteItems />
-                        </Suspense>
-                    </section>
-                )}
-
-                {/* Explore Movies & TV Shows Section */}
                 <section className="mb-12">
                     <AppHeader title="Explore TV Shows" />
                     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
