@@ -159,13 +159,23 @@ const MovieDetailContent: React.FC<MovieDetailContentProps> = ({
 
                         <div className="mb-6 text-base">
                             <div className="mb-2">
-                                <span className="font-bold">Director: </span>
+                                <span className="font-bold">
+                                    {director && Array.isArray(director) && director.length > 1
+                                        ? "Directors: "
+                                        : "Director: "}
+                                </span>
                                 <span className="text-gray-600 md:text-gray-300">
-                                    {director ? director.name : "N/A"}
+                                    {director
+                                        ? Array.isArray(director)
+                                            ? director.map((d) => d.name).join(", ")
+                                            : director.name
+                                        : "N/A"}
                                 </span>
                             </div>
                             <div>
-                                <span className="font-bold">Writers: </span>
+                                <span className="font-bold">
+                                    {writers && writers.length > 1 ? "Writers: " : "Writer: "}
+                                </span>
                                 <span className="text-gray-600 md:text-gray-300">
                                     {writers && writers.length > 0
                                         ? writers.map((w) => w.name).join(", ")

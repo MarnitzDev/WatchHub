@@ -1,34 +1,41 @@
-import AppButton from "@/components/ui/AppButton.tsx";
-import ProgressiveImage from "@/components/ProgressiveImage";
-import TrailerModal from "@/components/TrailerModal";
 import React, { useState } from "react";
-import { IGenre } from "@/types/Genre";
 import { MdOutlineBookmark, MdRemoveRedEye, MdPlayArrow } from "react-icons/md";
+import LazyImage from "@/components/LazyImage";
+import { ISeries } from "@/types/Series";
+import { IGenre } from "@/types/Genre";
+import AppButton from "@/components/ui/AppButton";
+import TrailerModal from "@/components/TrailerModal";
 
 interface SeriesDetailContentProps {
-    series: any; // Replace 'any' with your series type
+    series: ISeries;
     backdropPath: string | null;
+    lowQualityBackdropPath: string | null;
     posterSrc: string | null;
     lowQualityPosterSrc: string | null;
-    creator: { name: string } | undefined;
+    creators: { name: string }[];
+    writers: { name: string }[];
     isAuthenticated: boolean;
-    handleToggleFavourite: () => void;
-    handleToggleWatched: () => void;
     isFavourite: boolean;
+    handleToggleFavourite: () => void;
     isWatched: boolean;
-    trailerKey: string | undefined;
+    handleToggleWatched: () => void;
+    trailerKey?: string;
 }
 
 const SeriesDetailContent: React.FC<SeriesDetailContentProps> = ({
     series,
     backdropPath,
+    lowQualityBackdropPath,
     posterSrc,
     lowQualityPosterSrc,
+    creators,
+    writers,
     isAuthenticated,
     handleToggleFavourite,
     handleToggleWatched,
     isFavourite,
     isWatched,
+    trailerKey,
 }) => {
     const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
 
@@ -37,10 +44,13 @@ const SeriesDetailContent: React.FC<SeriesDetailContentProps> = ({
 
     return (
         <div className="relative">
-            <div
-                className="w-full h-[225px] sm:h-[450px] md:h-[625px] bg-cover bg-top relative"
-                style={{ backgroundImage: `url(${backdropPath})` }}
-            >
+            <div className="w-full h-[225px] sm:h-[450px] md:h-[625px] bg-cover bg-top relative">
+                <LazyImage
+                    src={backdropPath ?? ""}
+                    placeholderSrc={lowQualityBackdropPath ?? ""}
+                    alt={series.name}
+                    className="w-full h-full object-cover"
+                />
                 <div className="absolute inset-0 bg-black bg-opacity-60 md:bg-opacity-85"></div>
             </div>
 
@@ -48,16 +58,12 @@ const SeriesDetailContent: React.FC<SeriesDetailContentProps> = ({
                 <div className="flex flex-col items-center md:flex-row gap-6 md:gap-8">
                     <div className="w-full sm:w-[250px] md:w-[350px] flex justify-center md:justify-start">
                         <div className="aspect-[2/3] w-28 sm:w-full">
-                            {posterSrc ? (
-                                <ProgressiveImage
-                                    lowQualitySrc={lowQualityPosterSrc ?? ""}
-                                    highQualitySrc={posterSrc}
-                                    alt={series.name}
-                                    className="w-28 sm:w-full object-cover rounded-lg shadow-md"
-                                />
-                            ) : (
-                                <div className="w-28 sm:w-full bg-gray-200 rounded-lg shadow-lg animate-pulse"></div>
-                            )}
+                            <LazyImage
+                                src={posterSrc ?? ""}
+                                placeholderSrc={lowQualityPosterSrc ?? ""}
+                                alt={series.name}
+                                className="w-28 sm:w-full object-cover rounded-lg shadow-md"
+                            />
                         </div>
                     </div>
 
@@ -76,34 +82,38 @@ const SeriesDetailContent: React.FC<SeriesDetailContentProps> = ({
                                 </React.Fragment>
                             ))}
                             <span className="mx-2">•</span>
+
                             <span>
-                                {series.number_of_seasons} Season
-                                {series.number_of_seasons !== 1 ? "s" : ""}
+                                {series.number_of_seasons}{" "}
+                                {series.number_of_seasons === 1 ? "Season" : "Seasons"}
                             </span>
+                        </div>
+
+                        <div className="mb-4">
+                            {trailerKey && (
+                                <AppButton
+                                    onClick={openTrailerModal}
+                                    icon={<MdPlayArrow size={20} />}
+                                    title="Watch Trailer"
+                                    className="py-2 px-4 border text-base
+                                        rounded-full font-bold
+                                        transition-colors duration-200
+                                        border-gray-800 text-gray-800
+                                        hover:bg-gray-800 hover:text-white
+                                        dark:border-white dark:text-white
+                                        dark:hover:bg-white dark:hover:text-gray-800
+                                        md:border-gray-100 md:text-gray-100
+                                        md:hover:bg-gray-800 md:hover:text-white
+                                        md:dark:border-gray-800 md:dark:text-gray-800
+                                        md:dark:hover:bg-gray-800 md:dark:hover:text-white"
+                                >
+                                    Trailer
+                                </AppButton>
+                            )}
                         </div>
 
                         {isAuthenticated && (
                             <div className="mb-6 flex flex-col sm:flex-row gap-2">
-                                {/*{trailerKey && (*/}
-                                {/*    <AppButton*/}
-                                {/*        onClick={openTrailerModal}*/}
-                                {/*        icon={<MdPlayArrow size={20} />}*/}
-                                {/*        title="Watch Trailer"*/}
-                                {/*        className="py-2 px-4 border text-base*/}
-                                {/*        rounded-full font-bold*/}
-                                {/*        transition-colors duration-200*/}
-                                {/*        border-gray-800 text-gray-800*/}
-                                {/*        hover:bg-gray-800 hover:text-white*/}
-                                {/*        dark:border-white dark:text-white*/}
-                                {/*        dark:hover:bg-white dark:hover:text-gray-800*/}
-                                {/*        md:border-gray-100 md:text-gray-100*/}
-                                {/*        md:hover:bg-gray-800 md:hover:text-white*/}
-                                {/*        md:dark:border-gray-800 md:dark:text-gray-800*/}
-                                {/*        md:dark:hover:bg-gray-800 md:dark:hover:text-white"*/}
-                                {/*    >*/}
-                                {/*        Trailer*/}
-                                {/*    </AppButton>*/}
-                                {/*)}*/}
                                 <AppButton
                                     onClick={handleToggleFavourite}
                                     icon={
@@ -118,7 +128,9 @@ const SeriesDetailContent: React.FC<SeriesDetailContentProps> = ({
                                     variant="ghostSecondary"
                                     className="w-full p-2 hover:bg-opacity-20 sm:w-auto ml-3"
                                 >
-                                    {isFavourite ? "Remove from Favorites" : "Add to Favorites"}
+                                    <span
+                                        className={`items-center ${isFavourite ? "text-purple-500" : ""}`}
+                                    ></span>
                                 </AppButton>
                                 <AppButton
                                     onClick={handleToggleWatched}
@@ -132,29 +144,57 @@ const SeriesDetailContent: React.FC<SeriesDetailContentProps> = ({
                                     variant="ghostSecondary"
                                     className="w-full p-2 hover:bg-opacity-20 sm:w-auto ml-3"
                                 >
-                                    {isWatched ? "Mark as Unwatched" : "Mark as Watched"}
+                                    <span
+                                        className={`items-center ${isWatched ? "text-green-500" : ""}`}
+                                    ></span>
                                 </AppButton>
                             </div>
                         )}
 
-                        <p className="text-sm sm:text-base mb-4">{series.overview}</p>
+                        <div className="mb-6">
+                            {series.tagline && (
+                                <p className="text-lg italic text-gray-400 mb-4">
+                                    "{series.tagline}"
+                                </p>
+                            )}
+                            <h2 className="text-xl font-bold mb-2">Overview</h2>
+                            <p className="text-base text-gray-600 md:text-gray-300">
+                                {series.overview}
+                            </p>
+                        </div>
 
-                        {/*{creator && (*/}
-                        {/*    <p className="text-sm sm:text-base">*/}
-                        {/*        <span className="font-semibold">Creator:</span> {creator.name}*/}
-                        {/*    </p>*/}
-                        {/*)}*/}
+                        <div className="mb-6 text-base">
+                            <div className="mb-2">
+                                <span className="font-bold">
+                                    {creators.length === 1 ? "Creator: " : "Creators: "}
+                                </span>
+                                <span className="text-gray-600 md:text-gray-300">
+                                    {creators.length > 0
+                                        ? creators.map((c) => c.name).join(", ")
+                                        : "N/A"}
+                                </span>
+                            </div>
+                            <div>
+                                <span className="font-bold">Writers: </span>
+                                <span className="text-gray-600 md:text-gray-300">
+                                    {writers && writers.length > 0
+                                        ? writers.map((w) => w.name).join(", ")
+                                        : "N/A"}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                            <span className="bg-yellow-400 text-black font-bold rounded px-4 py-2 text-base">
+                                IMDb {series.vote_average.toFixed(1)}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/*{trailerKey && (*/}
-            {/*    <TrailerModal*/}
-            {/*        isOpen={isTrailerModalOpen}*/}
-            {/*        onClose={closeTrailerModal}*/}
-            {/*        videoKey={trailerKey}*/}
-            {/*    />*/}
-            {/*)}*/}
+            {isTrailerModalOpen && trailerKey && (
+                <TrailerModal trailerKey={trailerKey} onClose={closeTrailerModal} />
+            )}
         </div>
     );
 };

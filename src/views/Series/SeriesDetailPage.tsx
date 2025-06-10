@@ -1,4 +1,3 @@
-
 import React, { useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useSeriesDetails } from "@/hooks/useSeriesDetails";
@@ -35,6 +34,14 @@ const SeriesDetailPage: React.FC = () => {
 
     const { series, credits, videos } = seriesData;
     const creators = series.created_by || [];
+
+    const writers = credits.crew
+        .filter(
+            (person) =>
+                person.department === "Writing" ||
+                (person.jobs && person.jobs.some((job) => ["Writer"].includes(job.job)))
+        )
+        .slice(0, 5); // This limits the writers to a maximum of 5
     const topCast = credits.cast.slice(0, 18);
     const trailer = videos.find((video) => video.type === "Trailer");
 
@@ -51,6 +58,8 @@ const SeriesDetailPage: React.FC = () => {
         ? `https://image.tmdb.org/t/p/w92${series.poster_path}`
         : null;
 
+    console.log(credits.crew);
+
     return (
         <div>
             <SeriesDetailContent
@@ -60,6 +69,7 @@ const SeriesDetailPage: React.FC = () => {
                 posterSrc={posterSrc}
                 lowQualityPosterSrc={lowQualityPosterSrc}
                 creators={creators}
+                writers={writers}
                 isAuthenticated={!!user}
                 isFavourite={isFavourite(series.id)}
                 handleToggleFavourite={handleToggleFavourite}
