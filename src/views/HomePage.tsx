@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import HeroBanner from "@/views/Home/HeroBanner";
 import FeaturedToday from "@/views/Home/FeaturedToday";
 import AppHeader from "@/components/ui/AppHeader.tsx";
+import Footer from "@/components/navigation/Footer";
 
 // Use Vite's dynamic import syntax
 const LazyTopTenMovies = lazy(() => import("@/views/Home/TopTenMovies"));
@@ -61,6 +62,7 @@ const HomePage = () => {
                 </section>
 
             </div>
+            <Footer />
         </div>
     );
 };
