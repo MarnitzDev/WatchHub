@@ -205,16 +205,24 @@ export const fetchKnownForMovies = async (personId: number): Promise<IMovie[]> =
  * @param personId - TMDB person ID.
  * @returns Promise resolving to known for TV series.
  */
-export const fetchKnownForSeries = async (personId: number): Promise<ITVSeries[]> => {
+export const fetchKnownForSeries = async (personId: number): Promise<ISeries[]> => {
     const data = await fetchFromTMDB<{ cast: ISeries[] }>(`/person/${personId}/tv_credits`);
 
-    // Sort the cast by popularity and slice to get the top 10 TV series
+    // Sort the cast by a combination of factors
     return data.cast
-        .sort((a, b) => b.popularity - a.popularity)
+        .sort((a, b) => {
+            // Prioritize series with higher vote counts
+            const voteCountDiff = (b.vote_count || 0) - (a.vote_count || 0);
+            if (voteCountDiff !== 0) return voteCountDiff;
+
+            // If vote counts are equal, compare popularity
+            return (b.popularity || 0) - (a.popularity || 0);
+        })
         .slice(0, 10)
         .map((series) => ({
             ...series,
             media_type: "tv",
+            character: series.character || "Unknown Role", // Include the character they played
         }));
 };
 
