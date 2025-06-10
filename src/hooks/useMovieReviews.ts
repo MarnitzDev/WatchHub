@@ -13,7 +13,7 @@ export const useMovieReviews = (movieId: number) => {
                 "results" in data &&
                 Array.isArray(data.results)
             ) {
-                return data.results.slice(0, 3); // Return only the first 3 reviews
+                return data.results
             }
             throw new ApiError(500, "Unexpected data structure", ApiErrorType.SERVER_ERROR);
         },
