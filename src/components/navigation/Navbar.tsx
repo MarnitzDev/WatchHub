@@ -1,55 +1,20 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+
+import { useState, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
-import { MdMenu, MdClose, MdArrowDropDown } from "react-icons/md";
+import { MdMenu, MdClose } from "react-icons/md";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import SearchBar from "@/components/navigation/SearchBar.tsx";
 import UserMenu from "@/components/navigation/UserMenu";
 import MobileMenu from "@/components/navigation/MobileMenu";
 import MobileSearchBar from "@/components/navigation/MobileSearchBar";
-import MovieLinks from "@/components/navigation/MovieLinks";
-import SeriesLinks from "@/components/navigation/SeriesLinks";
 
 const Navbar = ({ isFilterOpen = false }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [isMoviesDropdownOpen, setIsMoviesDropdownOpen] = useState(false);
-    const [isSeriesDropdownOpen, setIsSeriesDropdownOpen] = useState(false);
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-    const moviesDropdownRef = useRef<HTMLDivElement>(null);
-    const seriesDropdownRef = useRef<HTMLDivElement>(null);
     const userDropdownRef = useRef<HTMLDivElement>(null);
 
     const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), []);
-    const toggleMoviesDropdown = useCallback(() => setIsMoviesDropdownOpen((prev) => !prev), []);
-    const toggleSeriesDropdown = useCallback(() => setIsSeriesDropdownOpen((prev) => !prev), []);
     const toggleUserDropdown = useCallback(() => setIsUserDropdownOpen((prev) => !prev), []);
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-                moviesDropdownRef.current &&
-                !moviesDropdownRef.current.contains(event.target as Node)
-            ) {
-                setIsMoviesDropdownOpen(false);
-            }
-            if (
-                seriesDropdownRef.current &&
-                !seriesDropdownRef.current.contains(event.target as Node)
-            ) {
-                setIsSeriesDropdownOpen(false);
-            }
-            if (
-                userDropdownRef.current &&
-                !userDropdownRef.current.contains(event.target as Node)
-            ) {
-                setIsUserDropdownOpen(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
 
     return (
         <nav className="bg-gray-800 sticky top-0 z-50">
@@ -63,54 +28,18 @@ const Navbar = ({ isFilterOpen = false }) => {
                         </div>
                         <div className="hidden md:block">
                             <div className="ml-6 flex items-baseline space-x-2">
-                                <div className="relative" ref={moviesDropdownRef}>
-                                    <button
-                                        onClick={toggleMoviesDropdown}
-                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center"
-                                    >
-                                        Movies
-                                        <MdArrowDropDown className="ml-1 h-5 w-5" />
-                                    </button>
-                                    {isMoviesDropdownOpen && (
-                                        <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                                            <div
-                                                className="py-1"
-                                                role="menu"
-                                                aria-orientation="vertical"
-                                                aria-labelledby="options-menu"
-                                            >
-                                                <MovieLinks
-                                                    onClick={() => setIsMoviesDropdownOpen(false)}
-                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="relative" ref={seriesDropdownRef}>
-                                    <button
-                                        onClick={toggleSeriesDropdown}
-                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center"
-                                    >
-                                        Series
-                                        <MdArrowDropDown className="ml-1 h-5 w-5" />
-                                    </button>
-                                    {isSeriesDropdownOpen && (
-                                        <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                                            <div
-                                                className="py-1"
-                                                role="menu"
-                                                aria-orientation="vertical"
-                                                aria-labelledby="options-menu"
-                                            >
-                                                <SeriesLinks
-                                                    onClick={() => setIsSeriesDropdownOpen(false)}
-                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
+                                <Link
+                                    to="/movies/popular"
+                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Movies
+                                </Link>
+                                <Link
+                                    to="/series/popular"
+                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Series
+                                </Link>
                                 <Link
                                     to="/search"
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
