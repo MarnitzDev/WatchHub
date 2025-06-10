@@ -11,21 +11,21 @@ interface UserMenuProps {
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({
-                                               isMobile = false,
-                                               closeMenu,
-                                               isDropdownOpen,
-                                               toggleDropdown,
-                                           }) => {
+    isMobile = false,
+    closeMenu,
+    isDropdownOpen,
+    toggleDropdown,
+}) => {
     const { user, isAuthenticated, loginWithRedirect, logout, isLoading } = useAuth0();
 
-    console.log('Auth0 states:', { isLoading, isAuthenticated, user });
+    console.log("Auth0 states:", { isLoading, isAuthenticated, user });
 
     const handleSignOut = () => {
         logout({
             logoutParams: {
-                returnTo: window.location.origin
-            }
-        }).catch(error => {
+                returnTo: window.location.origin,
+            },
+        }).catch((error) => {
             console.error("Logout error:", error);
             // You might want to show an error message to the user here
         });
@@ -51,12 +51,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 onClick={handleSignIn}
                 disabled={isLoading}
                 className={`text-gray-300 hover:bg-gray-700 hover:text-white block mr-2 px-3 py-2 rounded-md text-base font-medium ${
-                    isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
             >
                 <span className="flex items-center">
                     <MdAccountCircle className="mr-2" size={20} />
-                    {isLoading ? 'Loading...' : 'Sign In'}
+                    {isLoading ? "Loading..." : "Sign In"}
                 </span>
             </button>
         );

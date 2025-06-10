@@ -1,4 +1,3 @@
-
 import React from "react";
 import MovieCard from "@/components/MovieCard";
 import { useKnownFor } from "@/hooks/useKnownFor";

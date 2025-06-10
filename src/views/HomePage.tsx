@@ -54,7 +54,6 @@ const HomePage = () => {
                         </Suspense>
                     </div>
                 </section>
-
             </div>
             <Footer />
         </div>

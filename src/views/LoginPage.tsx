@@ -29,11 +29,19 @@ const LoginPage: React.FC = () => {
     }, [isLoading, isAuthenticated, navigate, error, user]);
 
     if (localLoading || isLoading) {
-        return <div className="min-h-screen flex justify-center items-center">Loading... (Auth0 Loading: {isLoading.toString()})</div>;
+        return (
+            <div className="min-h-screen flex justify-center items-center">
+                Loading... (Auth0 Loading: {isLoading.toString()})
+            </div>
+        );
     }
 
     if (error) {
-        return <div className="min-h-screen flex justify-center items-center">Error: {error.message}</div>;
+        return (
+            <div className="min-h-screen flex justify-center items-center">
+                Error: {error.message}
+            </div>
+        );
     }
 
     return (
@@ -45,7 +53,7 @@ const LoginPage: React.FC = () => {
                 <button
                     onClick={() => {
                         console.log("Login button clicked");
-                        loginWithRedirect().catch(err => console.error("Login error:", err));
+                        loginWithRedirect().catch((err) => console.error("Login error:", err));
                     }}
                     className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >

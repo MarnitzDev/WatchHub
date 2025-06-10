@@ -1,4 +1,3 @@
-
 import { useQuery } from "@tanstack/react-query";
 import {
     fetchTMDBSeriesDetails,
@@ -12,14 +11,13 @@ export const useSeriesDetails = ({ seriesId }: { seriesId: number }) => {
     return useQuery({
         queryKey: ["seriesDetails", seriesId],
         queryFn: async () => {
-            const [seriesDetails, credits, videos, keywords, contentRatings] =
-                await Promise.all([
-                    fetchTMDBSeriesDetails(seriesId),
-                    fetchTMDBSeriesCredits(seriesId),
-                    fetchTMDBSeriesVideos(seriesId),
-                    fetchTMDBSeriesKeywords(seriesId),
-                    fetchTMDBSeriesContentRatings(seriesId),
-                ]);
+            const [seriesDetails, credits, videos, keywords, contentRatings] = await Promise.all([
+                fetchTMDBSeriesDetails(seriesId),
+                fetchTMDBSeriesCredits(seriesId),
+                fetchTMDBSeriesVideos(seriesId),
+                fetchTMDBSeriesKeywords(seriesId),
+                fetchTMDBSeriesContentRatings(seriesId),
+            ]);
 
             // Type assertions for all variables
             const typedSeriesDetails = seriesDetails as any;

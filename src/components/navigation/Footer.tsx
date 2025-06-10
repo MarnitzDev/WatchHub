@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => {
     const quickLinks = [
-        { name: 'Home', path: '/' },
-        { name: 'Movies', path: '/movies' },
-        { name: 'TV Shows', path: '/series' },
-        { name: 'Search', path: '/search' },
+        { name: "Home", path: "/" },
+        { name: "Movies", path: "/movies" },
+        { name: "TV Shows", path: "/series" },
+        { name: "Search", path: "/search" },
     ];
 
     return (
@@ -14,7 +14,9 @@ const Footer: React.FC = () => {
             <div className="container mx-auto px-4">
                 <div className="flex flex-col items-center">
                     <h3 className="text-2xl font-bold mb-4">WatchHub</h3>
-                    <p className="text-sm text-center mb-6">Your ultimate destination for movies and TV shows.</p>
+                    <p className="text-sm text-center mb-6">
+                        Your ultimate destination for movies and TV shows.
+                    </p>
                     <nav className="mb-6">
                         <ul className="flex flex-wrap justify-center">
                             {quickLinks.map((link, index) => (

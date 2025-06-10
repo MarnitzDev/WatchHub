@@ -6,24 +6,28 @@ export const useFavourite = () => {
     const { user } = useAuth0();
     const [favourites, setFavourites] = useState<number[]>([]);
 
-    const toggleFavourite = useCallback((movie: IMovie) => {
-        if (!user) return;
+    const toggleFavourite = useCallback(
+        (movie: IMovie) => {
+            if (!user) return;
 
-        setFavourites((prev) =>
-            prev.includes(movie.id)
-                ? prev.filter((id) => id !== movie.id)
-                : [...prev, movie.id]
-        );
-    }, [user]);
+            setFavourites((prev) =>
+                prev.includes(movie.id) ? prev.filter((id) => id !== movie.id) : [...prev, movie.id]
+            );
+        },
+        [user]
+    );
 
-    const isFavourite = useCallback((movieId: number) => {
-        return favourites.includes(movieId);
-    }, [favourites]);
+    const isFavourite = useCallback(
+        (movieId: number) => {
+            return favourites.includes(movieId);
+        },
+        [favourites]
+    );
 
     return {
         favourites,
         toggleFavourite,
         isFavourite,
-        isLoading: false
+        isLoading: false,
     };
 };

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useKnownFor } from "@/hooks/useKnownFor";
 import { ISeries } from "@/types/Series";

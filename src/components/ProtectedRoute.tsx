@@ -17,7 +17,7 @@ const Auth0ProviderWithNavigate = ({ children }: { children: React.ReactNode }) 
             domain={import.meta.env.VITE_AUTH0_DOMAIN}
             clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
             authorizationParams={{
-                redirect_uri: `${window.location.origin}/auth/callback`
+                redirect_uri: `${window.location.origin}/auth/callback`,
             }}
             onRedirectCallback={onRedirectCallback}
         >

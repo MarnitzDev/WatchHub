@@ -30,11 +30,14 @@ export const useWatched = () => {
                     return prev.filter((item) => item.movie_id !== movie.id);
                 } else {
                     // Add the movie to the watched list
-                    return [...prev, {
-                        movie_id: movie.id,
-                        title: movie.title,
-                        poster_path: movie.poster_path
-                    }];
+                    return [
+                        ...prev,
+                        {
+                            movie_id: movie.id,
+                            title: movie.title,
+                            poster_path: movie.poster_path,
+                        },
+                    ];
                 }
             });
         },
@@ -45,6 +48,6 @@ export const useWatched = () => {
         watched,
         isLoading: false,
         toggleWatched,
-        isWatched
+        isWatched,
     };
 };

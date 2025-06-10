@@ -80,19 +80,21 @@ export const fetchTMDBSeriesDetails = async (seriesId: number) => {
  * @returns Promise resolving to TV series aggregate credits.
  */
 export const fetchTMDBSeriesCredits = async (seriesId: number): Promise<AggregateCredits> => {
-    const aggregateCredits = await fetchFromTMDB<AggregateCredits>(`/tv/${seriesId}/aggregate_credits`);
+    const aggregateCredits = await fetchFromTMDB<AggregateCredits>(
+        `/tv/${seriesId}/aggregate_credits`
+    );
 
     // Process the cast to include the most significant role for each actor
-    const processedCast = aggregateCredits.cast.map(actor => ({
+    const processedCast = aggregateCredits.cast.map((actor) => ({
         ...actor,
         character: actor.roles.reduce((prev, current) =>
-            (current.episode_count > prev.episode_count) ? current : prev
-        ).character
+            current.episode_count > prev.episode_count ? current : prev
+        ).character,
     }));
 
     return {
         ...aggregateCredits,
-        cast: processedCast
+        cast: processedCast,
     };
 };
 

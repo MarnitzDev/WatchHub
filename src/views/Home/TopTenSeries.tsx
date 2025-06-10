@@ -1,13 +1,12 @@
-
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchTMDBPopularSeries } from '@/api/tmdb';
-import SeriesCard from '@/components/SeriesCard';
-import { ISeries } from '@/types/Series';
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTMDBPopularSeries } from "@/api/tmdb";
+import SeriesCard from "@/components/SeriesCard";
+import { ISeries } from "@/types/Series";
 
 const TopTenSeries: React.FC = () => {
     const { data, isLoading, error } = useQuery({
-        queryKey: ['topTenSeries'],
+        queryKey: ["topTenSeries"],
         queryFn: () => fetchTMDBPopularSeries(1),
     });
 

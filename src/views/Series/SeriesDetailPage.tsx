@@ -6,7 +6,7 @@ import { useWatched } from "@/hooks/useWatched";
 import { useSeriesDetails } from "@/hooks/useSeriesDetails";
 import SeriesDetailContent from "@/views/SeriesDetail/SeriesDetailContent";
 import TopCast from "@/views/SeriesDetail/TopCast";
-// import AdditionalInfo from "@/views/SeriesDetail/AdditionalInfo";
+import AdditionalInfo from "@/views/SeriesDetail/AdditionalInfo";
 // import SeriesReviews from "@/components/SeriesReviews";
 // import RecommendedSeries from "@/components/RecommendedSeries";
 
@@ -77,10 +77,9 @@ const SeriesDetailPage: React.FC = () => {
                         {/*</div>*/}
                     </div>
 
-                    {/* Right Side */}
-                    {/*<div className="md:w-1/3 mt-8">*/}
-                    {/*    <AdditionalInfo series={series} />*/}
-                    {/*</div>*/}
+                    <div className="md:w-1/3 mt-8">
+                        <AdditionalInfo series={series} />
+                    </div>
                 </div>
             </div>
         </div>
