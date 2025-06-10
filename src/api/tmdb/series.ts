@@ -166,6 +166,18 @@ export const fetchSeriesDetails = async (seriesId: number) => {
 };
 
 /**
+ * Fetches reviews for a specific TV series from TMDB.
+ *
+ * @param seriesId - TMDB TV series ID.
+ * @param page - Page number (default: 1).
+ * @returns Promise resolving to TV series reviews.
+ */
+export const fetchSeriesReviews = async (seriesId: number, page = 1) => {
+    const response = await fetchFromTMDB(`/tv/${seriesId}/reviews`, { page });
+    return response.results;
+};
+
+/**
  * Fetches recommended TV series for a specific series from TMDB.
  *
  * @param seriesId - TMDB TV series ID.

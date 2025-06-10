@@ -8,6 +8,7 @@ import RecommendedSeries from "@/views/SeriesDetail/RecommendedSeries";
 import TopCast from "@/views/SeriesDetail/TopCast";
 import SeriesDetailContent from "@/views/SeriesDetail/SeriesDetailContent";
 import AdditionalInfo from "@/views/SeriesDetail/AdditionalInfo";
+import SeriesReviews from "@/views/SeriesDetail/SeriesReviews";
 
 const SeriesDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -91,10 +92,10 @@ const SeriesDetailPage: React.FC = () => {
                             <RecommendedSeries seriesId={series.id} />
                         </div>
 
-                        {/*<div className="mt-8">*/}
-                        {/*    <h2 className="text-2xl font-bold mb-4">User Reviews</h2>*/}
-                        {/*    <SeriesReviews seriesId={series.id} />*/}
-                        {/*</div>*/}
+                        <div className="mt-8">
+                            <h2 className="text-2xl font-bold mb-4">User Reviews</h2>
+                            <SeriesReviews seriesId={series.id} />
+                        </div>
                     </div>
 
                     {/* Right Side */}
