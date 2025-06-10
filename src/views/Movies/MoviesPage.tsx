@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useFavourite } from "@/hooks/useFavourite.ts";
 import { IMovie } from "@/types/Movie.ts";
