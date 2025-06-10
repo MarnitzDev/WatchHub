@@ -11,14 +11,14 @@ interface Actor {
 
 interface TopCastProps {
     cast: Actor[];
-    movieId: number;
+    seriesId: number;
 }
 
-const TopCast: React.FC<TopCastProps> = ({ cast, movieId }) => {
+const TopCast: React.FC<TopCastProps> = ({ cast, seriesId }) => {
     const navigate = useNavigate();
 
     const handleViewMoreClick = () => {
-        navigate(`/movie/${movieId}/credits`, { state: { movieId } });
+        navigate(`/series/${seriesId}/credits`, { state: { seriesId } });
     };
 
     return (

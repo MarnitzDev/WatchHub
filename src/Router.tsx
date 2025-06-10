@@ -3,9 +3,10 @@ import App from "./App";
 import HomePage from "./views/HomePage";
 import PopularMoviesPage from "@/views/Movies/PopularMoviesPage.tsx";
 import MovieDetailPage from "./views/Movies/MovieDetailPage.tsx";
-import MovieCreditsPage from "./views/MovieCreditsPage";
+import MovieCreditsPage from "./views/Movies/MovieCreditsPage";
 import PopularSeriesPage from "./views/Series/PopularSeriesPage";
 import SeriesDetailPage from "./views/Series/SeriesDetailPage.tsx";
+import SeriesCreditsPage from "./views/Series/SeriesCreditsPage";
 import PersonDetailPage from "./views/PersonDetailPage.tsx";
 import AdvanceSearchPage from "./views/AdvanceSearchPage.tsx";
 import ListsPage from "./views/ListsPage";
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
             { path: "movie/:id/credits", element: <MovieCreditsPage /> },
             { path: "series", element: <PopularSeriesPage /> },
             { path: "series/:id", element: <SeriesDetailPage /> },
+            { path: "series/:id/credits", element: <SeriesCreditsPage /> },
             { path: "person/:id", element: <PersonDetailPage /> },
             { path: "search", element: <AdvanceSearchPage /> },
             { path: "lists", element: <ListsPage /> },
