@@ -222,7 +222,7 @@ export const fetchKnownForSeries = async (personId: number): Promise<ISeries[]> 
         .map((series) => ({
             ...series,
             media_type: "tv",
-            character: series.character || "Unknown Role", // Include the character they played
+            character: series.character || "Unknown Role",
         }));
 };
 
@@ -293,13 +293,41 @@ export const fetchTMDBAdvancedSearchMovies = async (
 };
 
 /**
- * Fetches popular TV series from TMDB.
+ * Fetches popular TV series from TMDB from the last 5 years, excluding kid shows.
  *
  * @param page - Page number (default: 1).
- * @returns Promise resolving to popular TV series.
+ * @param language - ISO 639-1 value to display translated data (default: 'en-US').
+ * @param region - ISO 3166-1 code to filter release dates (optional).
+ * @returns Promise resolving to popular TV series from the last 5 years, excluding kid shows.
  */
-export const fetchTMDBPopularSeries = async (page = 1) => {
-    return fetchFromTMDB("/tv/popular", { page });
+export const fetchTMDBPopularSeries = async (page = 1, language = "en-US", region?: string) => {
+    const currentDate = new Date();
+    const fiveYearsAgo = new Date(
+        currentDate.getFullYear() - 5,
+        currentDate.getMonth(),
+        currentDate.getDate()
+    );
+    const formattedDate = fiveYearsAgo.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+
+    const params: Record<string, string | number> = {
+        page,
+        language,
+        sort_by: "popularity.desc",
+        "first_air_date.gte": formattedDate,
+        with_original_language: "en",
+        without_genres: "10762", // Exclude Kids genre
+    };
+
+    if (region) {
+        params.region = region;
+    }
+
+    return fetchFromTMDB<{
+        page: number;
+        results: ISeries[];
+        total_pages: number;
+        total_results: number;
+    }>("/discover/tv", params);
 };
 
 /**
