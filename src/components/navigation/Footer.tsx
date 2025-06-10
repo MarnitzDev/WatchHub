@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 const Footer: React.FC = () => {
     const quickLinks = [
         { name: 'Home', path: '/' },
-        { name: 'Movies', path: '/movies/popular' },
-        { name: 'TV Shows', path: '/series/popular' },
+        { name: 'Movies', path: '/movies' },
+        { name: 'TV Shows', path: '/series' },
         { name: 'Search', path: '/search' },
     ];
 

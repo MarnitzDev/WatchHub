@@ -29,13 +29,13 @@ const Navbar = ({ isFilterOpen = false }) => {
                         <div className="hidden md:block">
                             <div className="ml-6 flex items-baseline space-x-2">
                                 <Link
-                                    to="/movies/popular"
+                                    to="/movies"
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 >
                                     Movies
                                 </Link>
                                 <Link
-                                    to="/series/popular"
+                                    to="/series"
                                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 >
                                     Series

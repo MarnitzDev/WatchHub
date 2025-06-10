@@ -13,14 +13,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, toggleMenu }) => {
         <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <Link
-                    to="/movies/popular"
+                    to="/movies"
                     onClick={toggleMenu}
                     className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                     Movies
                 </Link>
                 <Link
-                    to="/series/popular"
+                    to="/series"
                     onClick={toggleMenu}
                     className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >

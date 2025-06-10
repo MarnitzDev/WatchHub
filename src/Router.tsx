@@ -21,10 +21,10 @@ const router = createBrowserRouter([
         element: <App />,
         children: [
             { index: true, element: <HomePage /> },
-            { path: "movies/popular", element: <PopularMoviesPage /> },
+            { path: "movies", element: <PopularMoviesPage /> },
             { path: "movie/:id", element: <MovieDetailPage /> },
             { path: "movie/:id/credits", element: <MovieCreditsPage /> },
-            { path: "series/popular", element: <PopularSeriesPage /> },
+            { path: "series", element: <PopularSeriesPage /> },
             { path: "series/:id", element: <SeriesDetailPage /> },
             { path: "person/:id", element: <PersonDetailPage /> },
             { path: "search", element: <AdvanceSearchPage /> },
