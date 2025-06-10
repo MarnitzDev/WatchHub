@@ -1,7 +1,7 @@
 import { ISearchCriteria } from "@/types/SearchCriteria";
 import { useQuery } from "@tanstack/react-query";
 import { IMovie } from "@/types/Movie";
-import { fetchTMDBAdvancedSearchMovies } from "@/api/tmdb";
+import { fetchAdvancedSearchMovies } from "@/api/tmdb";
 
 export const useAdvancedSearchMovies = (
     searchCriteria: ISearchCriteria,
@@ -9,7 +9,7 @@ export const useAdvancedSearchMovies = (
 ) => {
     return useQuery<IMovie[]>({
         queryKey: ["advancedSearchMovies", searchCriteria],
-        queryFn: () => fetchTMDBAdvancedSearchMovies(searchCriteria),
+        queryFn: () => fetchAdvancedSearchMovies(searchCriteria),
         enabled: isSearchClicked,
     });
 };

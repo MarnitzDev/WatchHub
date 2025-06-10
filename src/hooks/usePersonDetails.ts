@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchTMDBPersonDetails } from "@/api/tmdb";
+import { fetchPersonDetails } from "@/api/tmdb";
 
 /**
  * Fetches person details from TMDB using React Query.
@@ -11,7 +11,7 @@ import { fetchTMDBPersonDetails } from "@/api/tmdb";
 export const usePersonDetails = (personId: number) => {
     return useQuery({
         queryKey: ["personDetails", personId],
-        queryFn: () => fetchTMDBPersonDetails(personId),
+        queryFn: () => fetchPersonDetails(personId),
         enabled: !!personId,
     });
 };

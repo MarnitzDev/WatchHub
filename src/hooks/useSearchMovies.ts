@@ -1,5 +1,5 @@
 import { UseQueryResult } from "@tanstack/react-query";
-import { searchTMDBMovies } from "@/api/tmdb";
+import { searchMovies } from "@/api/tmdb";
 import { ISearchMoviesResponse } from "@/types/SearchMoviesResponse.ts";
 import { ApiError } from "@/api/apiErrors";
 import { useApiQuery } from "./useApiQuery";
@@ -17,7 +17,7 @@ export const useSearchMovies = (
 ): UseQueryResult<ISearchMoviesResponse, ApiError> =>
     useApiQuery<ISearchMoviesResponse>(
         ["searchMovies", query, page],
-        () => searchTMDBMovies(query, page) as Promise<ISearchMoviesResponse>,
+        () => searchMovies(query, page) as Promise<ISearchMoviesResponse>,
         {
             enabled: !!query,
         }

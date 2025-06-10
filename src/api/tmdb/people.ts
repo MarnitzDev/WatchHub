@@ -19,7 +19,7 @@ export const fetchPopularPeople = async (page = 1) => {
  * @returns Promise resolving to person details.
  * @throws {ApiError} On API request failure.
  */
-export const fetchTMDBPersonDetails = async (personId: number) => {
+export const fetchPersonDetails = async (personId: number) => {
     return fetchFromTMDB(`/person/${personId}`, { append_to_response: "movie_credits,tv_credits" });
 };
 

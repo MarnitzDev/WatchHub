@@ -9,7 +9,7 @@ import { IMovie } from "@/types/Movie.ts";
  * @param page - The page number of results to fetch (default: 1).
  * @returns Promise resolving to search results.
  */
-export const searchTMDBMovies = async (query: string, page: number = 1) => {
+export const searchMovies = async (query: string, page: number = 1) => {
     return fetchFromTMDB("/search/movie", { query, page });
 };
 
@@ -23,7 +23,7 @@ export const searchTMDBMovies = async (query: string, page: number = 1) => {
  * @param searchCriteria.rating - Optional minimum rating to filter by.
  * @returns Promise resolving to an array of movies matching the search criteria.
  */
-export const fetchTMDBAdvancedSearchMovies = async (
+export const fetchAdvancedSearchMovies = async (
     searchCriteria: ISearchCriteria
 ): Promise<IMovie[]> => {
     const { query, genres, year, rating } = searchCriteria;

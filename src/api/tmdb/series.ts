@@ -87,7 +87,7 @@ export const fetchPopularSeries = async (
  * @param seriesId - TMDB TV series ID.
  * @returns Promise resolving to TV series details.
  */
-export const fetchTMDBSeriesDetails = async (seriesId: number) => {
+export const fetchSeriesDetails = async (seriesId: number) => {
     return fetchFromTMDB(`/tv/${seriesId}`);
 };
 
@@ -97,7 +97,7 @@ export const fetchTMDBSeriesDetails = async (seriesId: number) => {
  * @param seriesId - TMDB TV series ID.
  * @returns Promise resolving to TV series aggregate credits.
  */
-export const fetchTMDBSeriesCredits = async (seriesId: number): Promise<AggregateCredits> => {
+export const fetchSeriesCredits = async (seriesId: number): Promise<AggregateCredits> => {
     const aggregateCredits = await fetchFromTMDB<AggregateCredits>(
         `/tv/${seriesId}/aggregate_credits`
     );
@@ -122,7 +122,7 @@ export const fetchTMDBSeriesCredits = async (seriesId: number): Promise<Aggregat
  * @param seriesId - TMDB TV series ID.
  * @returns Promise resolving to TV series videos.
  */
-export const fetchTMDBSeriesVideos = (seriesId: number) => {
+export const fetchSeriesVideos = (seriesId: number) => {
     return fetchFromTMDB(`/tv/${seriesId}/videos`);
 };
 
@@ -132,7 +132,7 @@ export const fetchTMDBSeriesVideos = (seriesId: number) => {
  * @param seriesId - TMDB TV series ID.
  * @returns Promise resolving to TV series keywords.
  */
-export const fetchTMDBSeriesKeywords = (seriesId: number) => {
+export const fetchSeriesKeywords = (seriesId: number) => {
     return fetchFromTMDB(`/tv/${seriesId}/keywords`);
 };
 
@@ -142,27 +142,8 @@ export const fetchTMDBSeriesKeywords = (seriesId: number) => {
  * @param seriesId - TMDB TV series ID.
  * @returns Promise resolving to TV series content ratings.
  */
-export const fetchTMDBSeriesContentRatings = (seriesId: number) => {
+export const fetchSeriesContentRatings = (seriesId: number) => {
     return fetchFromTMDB(`/tv/${seriesId}/content_ratings`);
-};
-
-/**
- * Fetches comprehensive series details including additional information.
- *
- * @param seriesId - TMDB TV series ID.
- * @returns Promise resolving to comprehensive series details.
- * @throws Error if fetching series details fails.
- */
-export const fetchSeriesDetails = async (seriesId: number) => {
-    try {
-        const [series] = await Promise.all([fetchFromTMDB(`/tv/${seriesId}`)]);
-        return {
-            series,
-        };
-    } catch (error) {
-        console.error("Error fetching series details:", error);
-        throw new Error("Failed to fetch series details");
-    }
 };
 
 /**
@@ -184,7 +165,7 @@ export const fetchSeriesReviews = async (seriesId: number, page = 1) => {
  * @param page - Page number (default: 1).
  * @returns Promise resolving to recommended TV series.
  */
-export const fetchTMDBRecommendedSeries = async (
+export const fetchRecommendedSeries = async (
     seriesId: number,
     page = 1
 ): Promise<{ results: ISeries[] }> => {
