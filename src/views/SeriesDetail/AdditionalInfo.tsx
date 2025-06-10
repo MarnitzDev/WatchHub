@@ -69,30 +69,6 @@ const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ series }) => {
                 <span className="ml-2 text-gray-900 dark:text-gray-100">{series.type}</span>
             </div>
 
-            {/* Networks */}
-            {series.networks && series.networks.length > 0 && (
-                <div className="mt-4">
-                    <h3 className="text-xl font-semibold mb-2">Networks</h3>
-                    <div className="flex flex-wrap gap-2">
-                        {series.networks.map((network) => (
-                            <span
-                                key={network.id}
-                                className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded-full text-sm flex items-center"
-                            >
-                                {network.logo_path && (
-                                    <img
-                                        src={`https://image.tmdb.org/t/p/w45${network.logo_path}`}
-                                        alt={network.name}
-                                        className="w-4 h-4 mr-1"
-                                    />
-                                )}
-                                {network.name}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-            )}
-
             {/* Keywords */}
             {series.keywords && series.keywords.length > 0 && (
                 <div className="mt-4">
@@ -109,6 +85,30 @@ const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ series }) => {
                     </div>
                 </div>
             )}
+
+            {/* Networks */}
+            {series.networks && series.networks.length > 0 && (
+                <div className="mt-4">
+                    <h3 className="text-xl font-semibold mb-2">Networks</h3>
+                    <div className="flex flex-wrap gap-4">
+                        {series.networks.map((network) => (
+                            <div key={network.id} className="flex flex-col items-center">
+                                {network.logo_path ? (
+                                    <img
+                                        src={`https://image.tmdb.org/t/p/w92${network.logo_path}`}
+                                        alt={network.name}
+                                        className="w-16 h-8 object-contain"
+                                        title={network.name}
+                                    />
+                                ) : (
+                                    <span className="text-sm text-gray-600 dark:text-gray-400">{network.name}</span>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
