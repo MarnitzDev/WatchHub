@@ -1,6 +1,30 @@
 import { fetchFromTMDB } from "./core";
 import { ISeries } from "@/types/Series.ts";
 
+interface AggregateCast {
+    adult: boolean;
+    gender: number;
+    id: number;
+    known_for_department: string;
+    name: string;
+    original_name: string;
+    popularity: number;
+    profile_path: string | null;
+    roles: Array<{
+        credit_id: string;
+        character: string;
+        episode_count: number;
+    }>;
+    total_episode_count: number;
+    order: number;
+}
+
+interface AggregateCredits {
+    cast: AggregateCast[];
+    crew: any[]; // Define a more specific type if needed
+    id: number;
+}
+
 /**
  * Fetches popular TV series from TMDB from the last 5 years, excluding kid shows.
  *
@@ -50,13 +74,26 @@ export const fetchTMDBSeriesDetails = async (seriesId: number) => {
 };
 
 /**
- * Fetches credits for a specific TV series from TMDB.
+ * Fetches aggregate credits for a specific TV series from TMDB.
  *
  * @param seriesId - TMDB TV series ID.
- * @returns Promise resolving to TV series credits.
+ * @returns Promise resolving to TV series aggregate credits.
  */
-export const fetchTMDBSeriesCredits = (seriesId: number) => {
-    return fetchFromTMDB(`/tv/${seriesId}/credits`);
+export const fetchTMDBSeriesCredits = async (seriesId: number): Promise<AggregateCredits> => {
+    const aggregateCredits = await fetchFromTMDB<AggregateCredits>(`/tv/${seriesId}/aggregate_credits`);
+
+    // Process the cast to include the most significant role for each actor
+    const processedCast = aggregateCredits.cast.map(actor => ({
+        ...actor,
+        character: actor.roles.reduce((prev, current) =>
+            (current.episode_count > prev.episode_count) ? current : prev
+        ).character
+    }));
+
+    return {
+        ...aggregateCredits,
+        cast: processedCast
+    };
 };
 
 /**
