@@ -1,6 +1,6 @@
 import { IMovie } from "@/types/Movie.ts";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTMDBPopularMovies, fetchTMDBMovieDetails } from "@/api/tmdb.ts";
+import { fetchPopularMovies, fetchMovieDetails } from "@/api/tmdb.ts";
 
 export const usePopularMovies = (page = 1) => {
     return useQuery({
@@ -10,12 +10,12 @@ export const usePopularMovies = (page = 1) => {
                 results: IMovie[];
             }
 
-            const tmdbData = (await fetchTMDBPopularMovies(page)) as TMDBResponse;
+            const tmdbData = (await fetchPopularMovies(page)) as TMDBResponse;
 
             // Fetch detailed information (including genres) for each movie
             return await Promise.all(
                 tmdbData.results.map(async (movie: IMovie) => {
-                    const detailData = (await fetchTMDBMovieDetails(movie.id)) as { genres: any[] };
+                    const detailData = (await fetchMovieDetails(movie.id)) as { genres: any[] };
                     return {
                         ...movie,
                         genres: detailData.genres,

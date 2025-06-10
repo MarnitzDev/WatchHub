@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchTMDBMovieReviews } from "@/api/tmdb";
+import { fetchMovieReviews } from "@/api/tmdb";
 import { ApiError, ApiErrorType } from "@/api/apiErrors.ts";
 
 export const useMovieReviews = (movieId: number) => {
     return useQuery({
         queryKey: ["movieReviews", movieId],
         queryFn: async () => {
-            const data = await fetchTMDBMovieReviews(movieId);
+            const data = await fetchMovieReviews(movieId);
             if (
                 typeof data === "object" &&
                 data !== null &&

@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import HomePage from "./views/HomePage";
-import PopularMoviesPage from "@/views/Movies/PopularMoviesPage.tsx";
+import MoviesPage from "@/views/Movies/MoviesPage.tsx";
 import MovieDetailPage from "./views/Movies/MovieDetailPage.tsx";
 import MovieCreditsPage from "./views/Movies/MovieCreditsPage";
-import PopularSeriesPage from "./views/Series/PopularSeriesPage";
+import SeriesPage from "./views/Series/SeriesPage";
 import SeriesDetailPage from "./views/Series/SeriesDetailPage.tsx";
 import SeriesCreditsPage from "./views/Series/SeriesCreditsPage";
 import PersonDetailPage from "./views/PersonDetailPage.tsx";
@@ -22,10 +22,10 @@ const router = createBrowserRouter([
         element: <App />,
         children: [
             { index: true, element: <HomePage /> },
-            { path: "movies", element: <PopularMoviesPage /> },
+            { path: "movies", element: <MoviesPage /> },
             { path: "movie/:id", element: <MovieDetailPage /> },
             { path: "movie/:id/credits", element: <MovieCreditsPage /> },
-            { path: "series", element: <PopularSeriesPage /> },
+            { path: "series", element: <SeriesPage /> },
             { path: "series/:id", element: <SeriesDetailPage /> },
             { path: "series/:id/credits", element: <SeriesCreditsPage /> },
             { path: "person/:id", element: <PersonDetailPage /> },

@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-    fetchTMDBMovieDetails,
-    fetchTMDBMovieCredits,
-    fetchTMDBMovieVideos,
-    fetchTMDBMovieKeywords,
-    fetchTMDBMovieReleaseDates,
-    fetchTMDBMovieCertifications,
+    fetchMovieDetails,
+    fetchMovieCredits,
+    fetchMovieVideos,
+    fetchMovieKeywords,
+    fetchMovieReleaseDates,
+    fetchMovieCertifications,
 } from "@/api/tmdb.ts";
 
 export const useMovieDetails = (movieId: number) => {
@@ -14,12 +14,12 @@ export const useMovieDetails = (movieId: number) => {
         queryFn: async () => {
             const [movieDetails, credits, videos, keywords, releaseDates, certifications] =
                 await Promise.all([
-                    fetchTMDBMovieDetails(movieId),
-                    fetchTMDBMovieCredits(movieId),
-                    fetchTMDBMovieVideos(movieId),
-                    fetchTMDBMovieKeywords(movieId),
-                    fetchTMDBMovieReleaseDates(movieId),
-                    fetchTMDBMovieCertifications(),
+                    fetchMovieDetails(movieId),
+                    fetchMovieCredits(movieId),
+                    fetchMovieVideos(movieId),
+                    fetchMovieKeywords(movieId),
+                    fetchMovieReleaseDates(movieId),
+                    fetchMovieCertifications(),
                 ]);
 
             // Type assertions for all variables

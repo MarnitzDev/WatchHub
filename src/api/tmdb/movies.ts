@@ -4,11 +4,29 @@ import { IMovie } from "@/types/Movie";
 /**
  * Fetches popular movies from TMDB.
  *
- * @param page - Page number (default: 1).
- * @returns Promise resolving to popular movies.
+ * @param page - Page number for pagination (default: 1).
+ * @param limit - Number of movies per page (default: 18).
+ * @returns Promise resolving to popular movies data.
  */
-export const fetchTMDBPopularMovies = async (page = 1): Promise<{ results: IMovie[] }> => {
-    return fetchFromTMDB("/movie/popular", { page });
+export const fetchPopularMovies = async (page: number = 1, limit: number = 18): Promise<{ results: IMovie[], page: number, total_pages: number }> => {
+    const response = await fetchFromTMDB<{
+        results: IMovie[];
+        page: number;
+        total_pages: number;
+        total_results: number;
+    }>("/movie/popular", { page });
+
+    // Limit the results on the client side
+    const limitedResults = response.results.slice(0, limit);
+
+    // Adjust total_pages based on the limit
+    const adjustedTotalPages = Math.ceil(response.total_results / limit);
+
+    return {
+        results: limitedResults,
+        page: response.page,
+        total_pages: adjustedTotalPages
+    };
 };
 
 /**
@@ -17,7 +35,7 @@ export const fetchTMDBPopularMovies = async (page = 1): Promise<{ results: IMovi
  * @param timeWindow - Time window for trending movies ("day" or "week").
  * @returns Promise resolving to trending movies.
  */
-export const fetchTMDBTrendingMovies = async (
+export const fetchTrendingMovies = async (
     timeWindow: "day" | "week"
 ): Promise<{ results: IMovie[] }> => {
     return fetchFromTMDB(`/trending/movie/${timeWindow}`);
@@ -29,7 +47,7 @@ export const fetchTMDBTrendingMovies = async (
  * @param movieId - TMDB movie ID.
  * @returns Promise resolving to movie details.
  */
-export const fetchTMDBMovieDetails = async (movieId: number): Promise<IMovie> => {
+export const fetchMovieDetails = async (movieId: number): Promise<IMovie> => {
     return fetchFromTMDB(`/movie/${movieId}`);
 };
 
@@ -39,7 +57,7 @@ export const fetchTMDBMovieDetails = async (movieId: number): Promise<IMovie> =>
  * @param movieId - TMDB movie ID.
  * @returns Promise resolving to movie credits.
  */
-export const fetchTMDBMovieCredits = async (movieId: number) => {
+export const fetchMovieCredits = async (movieId: number) => {
     return fetchFromTMDB(`/movie/${movieId}/credits`);
 };
 
@@ -49,7 +67,7 @@ export const fetchTMDBMovieCredits = async (movieId: number) => {
  * @param movieId - TMDB movie ID.
  * @returns Promise resolving to movie videos.
  */
-export const fetchTMDBMovieVideos = async (movieId: number) => {
+export const fetchMovieVideos = async (movieId: number) => {
     return fetchFromTMDB(`/movie/${movieId}/videos`);
 };
 
@@ -59,7 +77,7 @@ export const fetchTMDBMovieVideos = async (movieId: number) => {
  * @param movieId - TMDB movie ID.
  * @returns Promise resolving to movie keywords.
  */
-export const fetchTMDBMovieKeywords = async (movieId: number) => {
+export const fetchMovieKeywords = async (movieId: number) => {
     return fetchFromTMDB(`/movie/${movieId}/keywords`);
 };
 
@@ -69,7 +87,7 @@ export const fetchTMDBMovieKeywords = async (movieId: number) => {
  * @param movieId - TMDB movie ID.
  * @returns Promise resolving to movie release dates.
  */
-export const fetchTMDBMovieReleaseDates = async (movieId: number) => {
+export const fetchMovieReleaseDates = async (movieId: number) => {
     return fetchFromTMDB(`/movie/${movieId}/release_dates`);
 };
 
@@ -80,7 +98,7 @@ export const fetchTMDBMovieReleaseDates = async (movieId: number) => {
  * @param page - Page number (default: 1).
  * @returns Promise resolving to movie reviews.
  */
-export const fetchTMDBMovieReviews = async (movieId: number, page = 1) => {
+export const fetchMovieReviews = async (movieId: number, page = 1) => {
     return fetchFromTMDB(`/movie/${movieId}/reviews`, { page });
 };
 
@@ -91,7 +109,7 @@ export const fetchTMDBMovieReviews = async (movieId: number, page = 1) => {
  * @param page - Page number (default: 1).
  * @returns Promise resolving to recommended movies.
  */
-export const fetchTMDBRecommendedMovies = async (
+export const fetchRecommendedMovies = async (
     movieId: number,
     page = 1
 ): Promise<{ results: IMovie[] }> => {
@@ -103,6 +121,6 @@ export const fetchTMDBRecommendedMovies = async (
  *
  * @returns Promise resolving to movie certifications.
  */
-export const fetchTMDBMovieCertifications = async () => {
+export const fetchMovieCertifications = async () => {
     return fetchFromTMDB(`/certification/movie/list`);
 };

@@ -28,12 +28,18 @@ interface AggregateCredits {
 /**
  * Fetches popular TV series from TMDB from the last 5 years, excluding kid shows.
  *
- * @param page - Page number (default: 1).
+ * @param page - Page number for pagination (default: 1).
+ * @param limit - Number of series per page (default: 18).
  * @param language - ISO 639-1 value to display translated data (default: 'en-US').
  * @param region - ISO 3166-1 code to filter release dates (optional).
- * @returns Promise resolving to popular TV series from the last 5 years, excluding kid shows.
+ * @returns Promise resolving to popular TV series data.
  */
-export const fetchTMDBPopularSeries = async (page = 1, language = "en-US", region?: string) => {
+export const fetchPopularSeries = async (
+    page: number = 1,
+    limit: number = 18,
+    language: string = "en-US",
+    region?: string
+): Promise<{ results: ISeries[]; page: number; total_pages: number }> => {
     const currentDate = new Date();
     const fiveYearsAgo = new Date(
         currentDate.getFullYear() - 5,
@@ -55,12 +61,24 @@ export const fetchTMDBPopularSeries = async (page = 1, language = "en-US", regio
         params.region = region;
     }
 
-    return fetchFromTMDB<{
+    const response = await fetchFromTMDB<{
         page: number;
         results: ISeries[];
         total_pages: number;
         total_results: number;
     }>("/discover/tv", params);
+
+    // Limit the results on the client side
+    const limitedResults = response.results.slice(0, limit);
+
+    // Adjust total_pages based on the limit
+    const adjustedTotalPages = Math.ceil(response.total_results / limit);
+
+    return {
+        results: limitedResults,
+        page: response.page,
+        total_pages: adjustedTotalPages
+    };
 };
 
 /**

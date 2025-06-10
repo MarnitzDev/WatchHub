@@ -1,6 +1,6 @@
 import { ISeries } from "@/types/Series.ts";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTMDBPopularSeries, fetchTMDBSeriesDetails } from "@/api/tmdb";
+import { fetchPopularSeries, fetchTMDBSeriesDetails } from "@/api/tmdb";
 
 export const usePopularSeries = (page = 1) => {
     return useQuery({
@@ -10,7 +10,7 @@ export const usePopularSeries = (page = 1) => {
                 results: ISeries[];
             }
 
-            const tmdbData = (await fetchTMDBPopularSeries(page)) as TMDBResponse;
+            const tmdbData = (await fetchPopularSeries(page)) as TMDBResponse;
 
             // Fetch detailed information (including genres) for each series
             return await Promise.all(
