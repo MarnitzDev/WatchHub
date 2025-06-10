@@ -1,6 +1,7 @@
 import { createApiError } from "./apiErrors";
 import { ISearchCriteria } from "@/types/SearchCriteria.ts";
 import { IMovie } from "@/types/Movie.ts";
+import { ISeries } from "@/types/Series.ts";
 
 const TMDB_API_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -195,6 +196,25 @@ export const fetchKnownForMovies = async (personId: number): Promise<IMovie[]> =
         .map((movie) => ({
             ...movie,
             media_type: "movie",
+        }));
+};
+
+/**
+ * Fetches known for TV series for a specific person from TMDB.
+ *
+ * @param personId - TMDB person ID.
+ * @returns Promise resolving to known for TV series.
+ */
+export const fetchKnownForSeries = async (personId: number): Promise<ITVSeries[]> => {
+    const data = await fetchFromTMDB<{ cast: ISeries[] }>(`/person/${personId}/tv_credits`);
+
+    // Sort the cast by popularity and slice to get the top 10 TV series
+    return data.cast
+        .sort((a, b) => b.popularity - a.popularity)
+        .slice(0, 10)
+        .map((series) => ({
+            ...series,
+            media_type: "tv",
         }));
 };
 

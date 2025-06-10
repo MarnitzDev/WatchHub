@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { usePersonDetails } from "@/hooks/usePersonDetails";
 import KnownForMovies from "@/views/Person/KnownForMovies";
+import KnownForSeries from "@/views/Person/KnownForSeries";
 import { Iperson } from "@/types/Person";
 
 interface PersonDetailsProps {
@@ -24,6 +25,7 @@ const PersonDetails: React.FC<PersonDetailsProps> = () => {
         <div className="min-h-screen bg-white dark:bg-gray-900">
             <div className="max-w-screen-xl mx-auto p-4 mt-4">
                 <div className="flex flex-col md:flex-row md:space-x-8">
+                    {/* Left column (personal details) */}
                     <div className="md:w-1/4 mt-8 md:mt-0">
                         <div className="aspect-w-2 aspect-h-3 rounded-lg overflow-hidden shadow-lg mb-6">
                             <img
@@ -55,11 +57,20 @@ const PersonDetails: React.FC<PersonDetailsProps> = () => {
                             </div>
                         </div>
                     </div>
+                    {/* Right column (biography and known for) */}
                     <div className="md:w-3/4 mt-8 md:mt-0">
                         <h1 className="text-4xl font-bold mb-4">{typedPerson.name}</h1>
                         <p className="mb-8">{typedPerson.biography}</p>
 
-                        <KnownForMovies personId={personId} />
+                        <div className="space-y-8">
+                            <div>
+                                <KnownForMovies personId={personId} />
+                            </div>
+
+                            <div>
+                                <KnownForSeries personId={personId} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
