@@ -295,3 +295,7 @@ export const fetchSeriesDetails = async (seriesId: number) => {
         throw new Error("Failed to fetch series details");
     }
 };
+
+export const fetchPopularPeople = async (page = 1) => {
+    return fetchFromTMDB("/person/popular", { page });
+};

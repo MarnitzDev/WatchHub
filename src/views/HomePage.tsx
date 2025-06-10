@@ -40,12 +40,14 @@ const HomePage = () => {
                 </section>
 
                 {/* From Your Favourite Section */}
-                <section className="mb-12">
-                    <AppHeader title="From Your Favourite" />
-                    <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                        <p>Placeholder for Favourite items</p>
-                    </div>
-                </section>
+                {user && (
+                    <section className="mb-12">
+                        <AppHeader title="From Your Favourites" />
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <LazyFavoriteItems />
+                        </Suspense>
+                    </section>
+                )}
 
                 {/* Explore Movies & TV Shows Section */}
                 <section className="mb-12">
