@@ -8,6 +8,7 @@ import AppHeader from "@/components/ui/AppHeader.tsx";
 // Use Vite's dynamic import syntax
 const LazyTopTenMovies = lazy(() => import("@/views/Home/TopTenMovies"));
 const LazyPopularCelebrities = lazy(() => import("@/views/Home/PopularCelebrities"));
+const LazyTopTenSeries = lazy(() => import("@/views/Home/TopTenSeries"));
 
 const HomePage = () => {
     const { isLoading, error } = usePopularMovies();
@@ -51,19 +52,14 @@ const HomePage = () => {
 
                 {/* Explore Movies & TV Shows Section */}
                 <section className="mb-12">
-                    <AppHeader title="Explore Movies & TV Shows" />
+                    <AppHeader title="Explore TV Shows" />
                     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                        <p>Placeholder for Movie and TV Show exploration</p>
+                        <Suspense fallback={<div>Loading top series...</div>}>
+                            <LazyTopTenSeries />
+                        </Suspense>
                     </div>
                 </section>
 
-                {/* Top Box Office Section */}
-                <section className="mb-12">
-                    <AppHeader title="Top Box Office" />
-                    <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                        <p>Placeholder for Top Box Office data</p>
-                    </div>
-                </section>
             </div>
         </div>
     );
