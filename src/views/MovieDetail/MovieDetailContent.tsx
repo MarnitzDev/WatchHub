@@ -94,14 +94,14 @@ const MovieDetailContent: React.FC<MovieDetailContentProps> = ({
                                     className="py-2 px-4 border text-base
                                         rounded-full font-bold
                                         transition-colors duration-200
-                                        border-gray-800 text-gray-800
-                                        hover:bg-gray-800 hover:text-white
+                                        border-white text-white
+                                        hover:bg-white hover:text-gray-800
                                         dark:border-white dark:text-white
                                         dark:hover:bg-white dark:hover:text-gray-800
-                                        md:border-gray-100 md:text-gray-100
-                                        md:hover:bg-gray-800 md:hover:text-white
-                                        md:dark:border-gray-800 md:dark:text-gray-800
-                                        md:dark:hover:bg-gray-800 md:dark:hover:text-white"
+                                        md:border-white md:text-white
+                                        md:hover:bg-white md:hover:text-gray-800
+                                        md:dark:border-white md:dark:text-white
+                                        md:dark:hover:bg-white md:dark:hover:text-gray-800"
                                 >
                                     Trailer
                                 </AppButton>
