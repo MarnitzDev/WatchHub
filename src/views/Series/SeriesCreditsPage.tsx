@@ -16,7 +16,9 @@ const SeriesCreditsPage: React.FC = () => {
         setSeriesId(stateSeriesId || paramSeriesId);
     }, [id, location.state]);
 
-    const { data: seriesDetails, isLoading: isLoadingDetails } = useSeriesDetails({ seriesId: seriesId ?? 0 });
+    const { data: seriesDetails, isLoading: isLoadingDetails } = useSeriesDetails({
+        seriesId: seriesId ?? 0,
+    });
     const { data: credits, isLoading: isLoadingCredits } = useSeriesCredits(seriesId ?? 0);
 
     if (!seriesId || isLoadingDetails || isLoadingCredits) {
@@ -70,38 +72,38 @@ const SeriesCreditsPage: React.FC = () => {
             {activeTab === "cast" && (
                 <table className="w-full">
                     <thead>
-                    <tr className="border-b">
-                        <th className="text-left py-2">Name</th>
-                        <th className="text-left py-2">Character</th>
-                        <th className="text-left py-2">Episodes</th>
-                    </tr>
+                        <tr className="border-b">
+                            <th className="text-left py-2">Name</th>
+                            <th className="text-left py-2">Character</th>
+                            <th className="text-left py-2">Episodes</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {cast.map((person) => (
-                        <tr key={person.id} className="border-b">
-                            <td className="py-4 pr-4">
-                                <Link to={`/person/${person.id}`} className="flex items-center">
-                                    {person.profile_path ? (
-                                        <ProgressiveImage
-                                            lowQualitySrc={`https://image.tmdb.org/t/p/w45${person.profile_path}`}
-                                            highQualitySrc={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
-                                            alt={person.name}
-                                            className="w-16 h-24 object-cover rounded mr-4"
-                                        />
-                                    ) : (
-                                        <div className="w-16 h-24 bg-gray-200 rounded mr-4 flex items-center justify-center">
+                        {cast.map((person) => (
+                            <tr key={person.id} className="border-b">
+                                <td className="py-4 pr-4">
+                                    <Link to={`/person/${person.id}`} className="flex items-center">
+                                        {person.profile_path ? (
+                                            <ProgressiveImage
+                                                lowQualitySrc={`https://image.tmdb.org/t/p/w45${person.profile_path}`}
+                                                highQualitySrc={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
+                                                alt={person.name}
+                                                className="w-16 h-24 object-cover rounded mr-4"
+                                            />
+                                        ) : (
+                                            <div className="w-16 h-24 bg-gray-200 rounded mr-4 flex items-center justify-center">
                                                 <span className="text-gray-400 text-center">
                                                     No Image
                                                 </span>
-                                        </div>
-                                    )}
-                                    <span className="font-semibold">{person.name}</span>
-                                </Link>
-                            </td>
-                            <td className="py-4">{person.roles[0]?.character || 'N/A'}</td>
-                            <td className="py-4">{person.total_episode_count}</td>
-                        </tr>
-                    ))}
+                                            </div>
+                                        )}
+                                        <span className="font-semibold">{person.name}</span>
+                                    </Link>
+                                </td>
+                                <td className="py-4">{person.roles[0]?.character || "N/A"}</td>
+                                <td className="py-4">{person.total_episode_count}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             )}
@@ -112,45 +114,45 @@ const SeriesCreditsPage: React.FC = () => {
                         <h2 className="text-2xl font-semibold mb-4">{dept}</h2>
                         <table className="w-full">
                             <thead>
-                            <tr className="border-b">
-                                <th className="text-left py-2">Name</th>
-                                <th className="text-left py-2">Job</th>
-                                <th className="text-left py-2">Episodes</th>
-                            </tr>
+                                <tr className="border-b">
+                                    <th className="text-left py-2">Name</th>
+                                    <th className="text-left py-2">Job</th>
+                                    <th className="text-left py-2">Episodes</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {crew
-                                .filter((c) => c.department === dept)
-                                .map((person) => (
-                                    <tr key={person.id} className="border-b">
-                                        <td className="py-4 pr-4">
-                                            <Link
-                                                to={`/person/${person.id}`}
-                                                className="flex items-center"
-                                            >
-                                                {person.profile_path ? (
-                                                    <ProgressiveImage
-                                                        lowQualitySrc={`https://image.tmdb.org/t/p/w45${person.profile_path}`}
-                                                        highQualitySrc={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
-                                                        alt={person.name}
-                                                        className="w-16 h-24 object-cover rounded mr-4"
-                                                    />
-                                                ) : (
-                                                    <div className="w-16 h-24 bg-gray-200 rounded mr-4 flex items-center justify-center">
+                                {crew
+                                    .filter((c) => c.department === dept)
+                                    .map((person) => (
+                                        <tr key={person.id} className="border-b">
+                                            <td className="py-4 pr-4">
+                                                <Link
+                                                    to={`/person/${person.id}`}
+                                                    className="flex items-center"
+                                                >
+                                                    {person.profile_path ? (
+                                                        <ProgressiveImage
+                                                            lowQualitySrc={`https://image.tmdb.org/t/p/w45${person.profile_path}`}
+                                                            highQualitySrc={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
+                                                            alt={person.name}
+                                                            className="w-16 h-24 object-cover rounded mr-4"
+                                                        />
+                                                    ) : (
+                                                        <div className="w-16 h-24 bg-gray-200 rounded mr-4 flex items-center justify-center">
                                                             <span className="text-gray-400 text-center">
                                                                 No Image
                                                             </span>
-                                                    </div>
-                                                )}
-                                                <span className="font-semibold">
+                                                        </div>
+                                                    )}
+                                                    <span className="font-semibold">
                                                         {person.name}
                                                     </span>
-                                            </Link>
-                                        </td>
-                                        <td className="py-4">{person.jobs[0]?.job || 'N/A'}</td>
-                                        <td className="py-4">{person.total_episode_count}</td>
-                                    </tr>
-                                ))}
+                                                </Link>
+                                            </td>
+                                            <td className="py-4">{person.jobs[0]?.job || "N/A"}</td>
+                                            <td className="py-4">{person.total_episode_count}</td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     </div>

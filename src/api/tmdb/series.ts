@@ -77,7 +77,7 @@ export const fetchPopularSeries = async (
     return {
         results: limitedResults,
         page: response.page,
-        total_pages: adjustedTotalPages
+        total_pages: adjustedTotalPages,
     };
 };
 

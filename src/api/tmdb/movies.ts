@@ -8,7 +8,10 @@ import { IMovie } from "@/types/Movie";
  * @param limit - Number of movies per page (default: 18).
  * @returns Promise resolving to popular movies data.
  */
-export const fetchPopularMovies = async (page: number = 1, limit: number = 18): Promise<{ results: IMovie[], page: number, total_pages: number }> => {
+export const fetchPopularMovies = async (
+    page: number = 1,
+    limit: number = 18
+): Promise<{ results: IMovie[]; page: number; total_pages: number }> => {
     const response = await fetchFromTMDB<{
         results: IMovie[];
         page: number;
@@ -25,7 +28,7 @@ export const fetchPopularMovies = async (page: number = 1, limit: number = 18): 
     return {
         results: limitedResults,
         page: response.page,
-        total_pages: adjustedTotalPages
+        total_pages: adjustedTotalPages,
     };
 };
 

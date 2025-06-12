@@ -8,7 +8,8 @@ import SkeletonLoader from "@/components/SkeletonLoader";
 import { useInView } from "react-intersection-observer";
 
 const SeriesPage: React.FC = () => {
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = useInfinitePopularSeries();
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } =
+        useInfinitePopularSeries();
     const { toggleFavourite, isFavourite } = useFavourite();
     const { isAuthenticated } = useAuth();
     const { ref, inView } = useInView();

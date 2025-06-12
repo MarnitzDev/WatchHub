@@ -1,6 +1,5 @@
-
-import React from 'react';
-import { useSeriesReviews } from '@/hooks/useSeriesReviews';
+import React from "react";
+import { useSeriesReviews } from "@/hooks/useSeriesReviews";
 import { IReview } from "@/types/Review";
 
 interface SeriesReviewsProps {

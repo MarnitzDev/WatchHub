@@ -101,14 +101,15 @@ const AdditionalInfo: React.FC<AdditionalInfoProps> = ({ series }) => {
                                         title={network.name}
                                     />
                                 ) : (
-                                    <span className="text-sm text-gray-600 dark:text-gray-400">{network.name}</span>
+                                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                                        {network.name}
+                                    </span>
                                 )}
                             </div>
                         ))}
                     </div>
                 </div>
             )}
-
         </div>
     );
 };

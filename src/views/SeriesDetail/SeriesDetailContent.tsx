@@ -98,14 +98,12 @@ const SeriesDetailContent: React.FC<SeriesDetailContentProps> = ({
                                     className="py-2 px-4 border text-base
                                         rounded-full font-bold
                                         transition-colors duration-200
-                                        border-white text-white
-                                        hover:bg-white hover:text-gray-800
+                                        border-gray-800 text-gray-800
+                                        hover:bg-gray-800 hover:text-white
                                         dark:border-white dark:text-white
                                         dark:hover:bg-white dark:hover:text-gray-800
                                         md:border-white md:text-white
-                                        md:hover:bg-white md:hover:text-gray-800
-                                        md:dark:border-white md:dark:text-white
-                                        md:dark:hover:bg-white md:dark:hover:text-gray-800"
+                                        md:hover:bg-white md:hover:text-gray-800"
                                 >
                                     Trailer
                                 </AppButton>
@@ -165,7 +163,7 @@ const SeriesDetailContent: React.FC<SeriesDetailContentProps> = ({
 
                         <div className="mb-6 text-base">
                             <div className="mb-2">
-                                <span className="font-bold">
+                                <span className="font-bold text-gray-600 md:text-gray-300 dark:text-gray-300">
                                     {creators.length === 1 ? "Creator: " : "Creators: "}
                                 </span>
                                 <span className="text-gray-600 md:text-gray-300">
@@ -175,7 +173,7 @@ const SeriesDetailContent: React.FC<SeriesDetailContentProps> = ({
                                 </span>
                             </div>
                             <div>
-                                <span className="font-bold">Writers: </span>
+                                <span className="font-bold text-gray-600 md:text-gray-300 dark:text-gray-300">Writers: </span>
                                 <span className="text-gray-600 md:text-gray-300">
                                     {writers && writers.length > 0
                                         ? writers.map((w) => w.name).join(", ")
